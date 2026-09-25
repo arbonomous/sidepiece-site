@@ -3,20 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SidePiece - a slim Telegram panel for the edge of your Mac screen</title>
+<title>SidePiece - Telegram, one hover away</title>
 <meta name="description" content="SidePiece is an unofficial macOS app that keeps Telegram Web one hover away, docked to the edge of your screen. Free beta.">
 <style>
   :root {
-    --teal: #14b8a6;
-    --teal-deep: #0f6f6e;
+    --teal: #2dd4bf;
+    --teal-deep: #0f9488;
     --teal-dark: #0a5453;
-    --mint: #e3f2f0;
-    --page: #f7f4f1;
-    --ink: #1d2b2a;
-    --ink-2: #55686a;
-    --hairline: #e2dcd6;
-    --warn-bg: #fdf3e3;
-    --warn-border: #ecd9ae;
+    --page: #0b1d1c;
+    --panel: #102726;
+    --card: #12302f;
+    --hairline: rgba(255,255,255,.09);
+    --ink: #eafaf7;
+    --ink-2: #9dc6c0;
+    --ink-3: #6f9a94;
+    --warn-bg: rgba(251,191,36,.08);
+    --warn-border: rgba(251,191,36,.28);
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
@@ -27,97 +29,128 @@
     line-height: 1.55;
     -webkit-font-smoothing: antialiased;
   }
-  a { color: var(--teal-deep); }
+  a { color: var(--teal); }
 
   /* ---------- Hero ---------- */
   header.hero {
     position: relative;
     overflow: hidden;
     background:
-      radial-gradient(900px 500px at 75% -10%, rgba(20,184,166,.35), transparent 60%),
-      radial-gradient(700px 420px at 12% 110%, rgba(15,111,110,.45), transparent 60%),
-      linear-gradient(160deg, #072e2c 0%, #0a3a38 55%, #0d4745 100%);
-    color: #f2fbfa;
+      radial-gradient(1000px 520px at 78% -12%, rgba(45,212,191,.22), transparent 62%),
+      radial-gradient(760px 460px at 8% 108%, rgba(15,148,136,.30), transparent 60%),
+      linear-gradient(165deg, #041615 0%, #072422 55%, #0a302d 100%);
     text-align: center;
-    padding: 88px 20px 340px;
+    padding: 92px 20px 380px;
+    border-bottom: 1px solid var(--hairline);
   }
   .hero .glow {
     position: absolute; inset: 0; pointer-events: none;
-    background-image: radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
-    background-size: 26px 26px;
-    mask-image: linear-gradient(to bottom, rgba(0,0,0,.8), transparent 75%);
+    background-image: radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size: 28px 28px;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,.85), transparent 78%);
   }
+  .hero .eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase;
+    color: var(--teal);
+    border: 1px solid rgba(45,212,191,.35); border-radius: 999px;
+    padding: 7px 16px; margin-bottom: 26px;
+    background: rgba(45,212,191,.07);
+  }
+  .hero .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 10px var(--teal); }
   .hero img.icon {
-    width: 116px; height: 116px; border-radius: 26px;
-    box-shadow: 0 18px 50px rgba(0,0,0,.45), 0 0 0 1px rgba(255,255,255,.12), 0 0 60px rgba(20,184,166,.35);
+    width: 108px; height: 108px; border-radius: 25px;
+    box-shadow: 0 18px 50px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.12), 0 0 60px rgba(45,212,191,.3);
     animation: floaty 5s ease-in-out infinite;
   }
-  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
   .hero h1 {
-    font-size: 64px; margin: 26px 0 10px; letter-spacing: -1.5px; line-height: 1;
-    background: linear-gradient(90deg, #ffffff 20%, #7be8dc 60%, #2dd4bf 100%);
+    font-size: 68px; margin: 24px 0 14px; letter-spacing: -2px; line-height: 1.02; font-weight: 800;
+    background: linear-gradient(92deg, #ffffff 15%, #7be8dc 55%, #2dd4bf 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .hero .tagline { font-size: 20px; color: #c9e6e2; max-width: 600px; margin: 0 auto 10px; }
-  .hero .unofficial { font-size: 14px; color: #8fbdb7; margin: 12px auto 0; }
+  .hero .tagline { font-size: 20px; color: #bfe3de; max-width: 620px; margin: 0 auto; }
+  .hero .unofficial { font-size: 13.5px; color: var(--ink-3); margin: 14px auto 0; }
+
+  .cta-row { margin-top: 34px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
   .cta {
-    display: inline-block; margin-top: 30px;
+    display: inline-flex; align-items: center; gap: 10px;
     background: linear-gradient(135deg, #2dd4bf, #0f9488);
-    color: #04211f; text-decoration: none; font-size: 17px; font-weight: 700;
-    padding: 15px 34px; border-radius: 999px;
-    box-shadow: 0 10px 30px rgba(20,184,166,.4);
+    color: #03211f; text-decoration: none; font-size: 18px; font-weight: 700;
+    padding: 16px 38px; border-radius: 999px;
+    box-shadow: 0 12px 34px rgba(45,212,191,.35);
     transition: transform .18s ease, box-shadow .18s ease;
   }
-  .cta:hover { transform: translateY(-2px); box-shadow: 0 16px 40px rgba(20,184,166,.5); }
-  .hero .cta-note { font-size: 13px; color: #8fbdb7; margin-top: 12px; }
-  .hero .secondary-cta { display: inline-block; margin-top: 14px; color: #c9e6e2; text-underline-offset: 4px; font-size: 15px; }
-  .hero .install-note { max-width: 580px; margin: 16px auto 0; color: #c9e6e2; font-size: 13px; line-height: 1.6; }
-  .hero .install-note strong { color: #f2fbfa; }
+  .cta:hover { transform: translateY(-2px); box-shadow: 0 18px 44px rgba(45,212,191,.45); }
+  .cta svg { width: 18px; height: 18px; }
+  .cta-note { font-size: 13.5px; color: var(--ink-3); margin: 0; }
+  .secondary-cta { color: #bfe3de; text-underline-offset: 4px; font-size: 15px; }
 
+  .install-steps { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px 10px; margin-top: 22px; max-width: 640px; }
+  .install-steps .step {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 13px; color: #cfe9e5;
+    background: rgba(255,255,255,.05); border: 1px solid var(--hairline);
+    padding: 8px 14px; border-radius: 999px;
+  }
+  .install-steps .step b {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 18px; height: 18px; border-radius: 50%;
+    background: rgba(45,212,191,.18); color: var(--teal); font-size: 11px;
+  }
+  .install-warn { max-width: 620px; margin: 16px auto 0; color: #e8d9b0; font-size: 13px; line-height: 1.6; }
+  .install-warn strong { color: #f5e7c4; }
 
-  /* ---------- Sidebar mock ---------- */
+  /* ---------- Demo mock ---------- */
   .mock-stage {
     position: absolute; left: 50%; transform: translateX(-50%);
-    bottom: -1px; width: min(760px, 92vw); height: 300px;
-    perspective: 900px;
+    bottom: -1px; width: min(780px, 94vw); height: 330px;
   }
   .mock-screen {
     position: absolute; inset: 0;
-    background: linear-gradient(180deg, #123c3a, #0b2a29);
+    background: linear-gradient(180deg, #11403d, #0a2a28);
     border: 1px solid rgba(255,255,255,.14); border-bottom: none;
     border-radius: 18px 18px 0 0;
-    box-shadow: 0 -20px 60px rgba(0,0,0,.4);
+    box-shadow: 0 -24px 70px rgba(0,0,0,.5);
     overflow: hidden;
   }
+  .mock-menubar { height: 24px; background: rgba(0,0,0,.28); border-bottom: 1px solid rgba(255,255,255,.07); display: flex; align-items: center; justify-content: flex-end; padding: 0 12px; gap: 10px; }
+  .mock-menubar span { width: 8px; height: 8px; border-radius: 2px; background: rgba(255,255,255,.25); }
+  .mock-menubar .s-badge { width: auto; height: 14px; border-radius: 7px; padding: 0 7px; background: rgba(45,212,191,.25); color: #7be8dc; font-size: 9px; font-weight: 700; display: flex; align-items: center; }
+  .mock-window { position: absolute; top: 56px; left: 15%; right: 12%; bottom: 30px; border-radius: 10px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); padding: 14px 18px; text-align: left; }
+  .mock-window .line { height: 9px; border-radius: 5px; background: rgba(255,255,255,.12); margin-bottom: 10px; }
+  .mock-window .line.w1 { width: 62%; } .mock-window .line.w2 { width: 44%; } .mock-window .line.w3 { width: 71%; } .mock-window .line.w4 { width: 30%; }
   .mock-rail {
-    position: absolute; top: 0; bottom: 0; left: 0; width: 14px;
+    position: absolute; top: 0; bottom: 0; right: 0; width: 13px;
     background: linear-gradient(180deg, #2dd4bf, #0f9488);
-    box-shadow: 4px 0 18px rgba(45,212,191,.35);
+    box-shadow: -4px 0 18px rgba(45,212,191,.4);
   }
   .mock-pill {
-    position: absolute; top: 46px; left: 3px; width: 8px; height: 8px;
+    position: absolute; top: 46px; right: 2.5px; width: 8px; height: 8px;
     border-radius: 50%; background: #f87171;
+    box-shadow: 0 0 8px rgba(248,113,113,.8);
   }
   .mock-panel {
-    position: absolute; top: 14px; bottom: 14px; left: 14px; width: 300px;
-    background: #fbfdfd; border-radius: 14px;
-    box-shadow: 0 20px 50px rgba(0,0,0,.5);
-    transform: translateX(-112%);
+    position: absolute; top: 24px; bottom: 14px; right: 13px; width: 296px;
+    background: #f7fbfa; border-radius: 14px 0 0 14px;
+    box-shadow: -18px 20px 50px rgba(0,0,0,.45);
+    transform: translateX(112%);
     animation: slide 7s cubic-bezier(.7,0,.2,1) infinite;
+    animation-delay: -3s;
     text-align: left; overflow: hidden;
   }
   @keyframes slide {
-    0%, 12%   { transform: translateX(-112%); }
+    0%, 12%   { transform: translateX(112%); }
     24%, 62%  { transform: translateX(0); }
-    74%, 100% { transform: translateX(-112%); }
+    74%, 100% { transform: translateX(112%); }
   }
-  .mp-head { padding: 14px 16px 10px; border-bottom: 1px solid #e6efee; display: flex; align-items: center; gap: 9px; }
+  .mp-head { padding: 14px 16px 10px; border-bottom: 1px solid #e2edeb; display: flex; align-items: center; gap: 9px; }
   .mp-dot { width: 30px; height: 30px; border-radius: 50%; background: linear-gradient(135deg, #2dd4bf, #0f9488); flex: 0 0 auto; }
   .mp-title { font-size: 13px; font-weight: 700; color: #17312f; }
   .mp-sub { font-size: 11px; color: #6f8a88; }
   .mp-msg { margin: 10px 14px; max-width: 78%; padding: 8px 11px; border-radius: 12px; font-size: 12px; line-height: 1.4; }
-  .mp-msg.in { background: #eef4f3; color: #2b4140; border-bottom-left-radius: 4px; }
-  .mp-msg.out { background: linear-gradient(135deg, #2dd4bf, #14b8a6); color: #04211f; margin-left: auto; border-bottom-right-radius: 4px; }
+  .mp-msg.in { background: #e8f0ef; color: #2b4140; border-bottom-left-radius: 4px; }
+  .mp-msg.out { background: linear-gradient(135deg, #2dd4bf, #14b8a6); color: #03211f; margin-left: auto; border-bottom-right-radius: 4px; }
   .mp-typing { margin: 6px 14px; display: flex; gap: 4px; }
   .mp-typing span { width: 6px; height: 6px; border-radius: 50%; background: #9fc4c0; animation: blink 1.2s infinite; }
   .mp-typing span:nth-child(2) { animation-delay: .2s; }
@@ -125,10 +158,11 @@
   @keyframes blink { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
 
   /* ---------- Body ---------- */
-  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px 64px; }
-  section { padding: 48px 0 8px; margin-top: 8px; }
-  h2 { font-size: 26px; margin: 0 0 22px; letter-spacing: -0.4px; }
-  h2::before { content: ""; display: inline-block; width: 22px; height: 4px; border-radius: 2px; background: linear-gradient(90deg, #2dd4bf, #0f9488); margin-right: 10px; vertical-align: middle; }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px 20px; }
+  section { padding: 72px 0 8px; }
+  .sec-label { font-size: 12.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; }
+  h2 { font-size: 36px; margin: 0 0 10px; letter-spacing: -1px; line-height: 1.1; }
+  .sec-sub { color: var(--ink-2); font-size: 16.5px; max-width: 560px; margin: 0 0 34px; }
 
   .reveal { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
   .reveal.in { opacity: 1; transform: none; }
@@ -138,49 +172,83 @@
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 
+  /* How it works */
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .step-card {
+    background: var(--panel); border: 1px solid var(--hairline); border-radius: 18px; padding: 24px 22px;
+    transition: transform .18s ease, border-color .18s ease;
+  }
+  .step-card:hover { transform: translateY(-3px); border-color: rgba(45,212,191,.35); }
+  .step-card .n {
+    width: 34px; height: 34px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, rgba(45,212,191,.25), rgba(15,148,136,.25)); color: var(--teal);
+    font-weight: 800; font-size: 15px; margin-bottom: 14px;
+  }
+  .step-card .name { font-weight: 700; font-size: 17px; margin-bottom: 6px; }
+  .step-card .detail { color: var(--ink-2); font-size: 14.5px; }
+
+  /* Features */
   .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
   .card {
-    background: #fff; border: 1px solid var(--hairline); border-radius: 16px; padding: 18px;
-    transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    background: var(--card); border: 1px solid var(--hairline); border-radius: 18px; padding: 22px;
+    transition: transform .18s ease, border-color .18s ease;
   }
-  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(15,111,110,.12); border-color: #bfe3df; }
-  .card .num {
-    width: 30px; height: 30px; border-radius: 9px; display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, #d9f3ef, #c0ebe6); color: var(--teal-dark);
-    font-weight: 800; font-size: 14px; margin-bottom: 10px;
+  .card:hover { transform: translateY(-3px); border-color: rgba(45,212,191,.35); }
+  .card .glyph {
+    width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
+    background: rgba(45,212,191,.12); margin-bottom: 14px;
   }
-  .card .name { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+  .card .glyph svg { width: 20px; height: 20px; stroke: var(--teal); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .card .name { font-weight: 700; font-size: 16.5px; margin-bottom: 5px; }
   .card .detail { color: var(--ink-2); font-size: 14.5px; }
 
-  .facts { display: grid; grid-template-columns: 140px 1fr; row-gap: 12px; column-gap: 16px; font-size: 15px; background: #fff; border: 1px solid var(--hairline); border-radius: 16px; padding: 20px; margin: 0; }
-  .facts dt { color: var(--ink-2); margin: 0; }
-  .facts dd { margin: 0; }
-  .callout { background: var(--warn-bg); border: 1px solid var(--warn-border); border-radius: 14px; padding: 16px 18px; margin-top: 18px; font-size: 15px; }
-  .callout strong { display: block; margin-bottom: 4px; }
-
-  ol.beta { padding-left: 22px; }
-  ol.beta li { padding: 6px 0; }
-  ol.beta li::marker { color: var(--teal-deep); font-weight: 800; }
-  .privacy {
-    background: linear-gradient(135deg, #e7f7f4, #d5f0ec);
-    border: 1px solid #bfe3df; border-radius: 14px; padding: 18px 20px; font-size: 15px;
-    display: flex; gap: 12px; align-items: flex-start;
+  /* Honest status */
+  .honest { background: var(--panel); border: 1px solid var(--hairline); border-radius: 20px; padding: 30px; }
+  .facts { display: grid; grid-template-columns: 150px 1fr; row-gap: 14px; column-gap: 18px; font-size: 15px; margin: 0; }
+  .facts dt { color: var(--ink-3); margin: 0; }
+  .facts dd { margin: 0; color: var(--ink); }
+  .callout {
+    background: var(--warn-bg); border: 1px solid var(--warn-border);
+    border-radius: 14px; padding: 16px 18px; margin-top: 22px; font-size: 14.5px; color: #efe3c2;
   }
-  .privacy .lock { font-size: 20px; line-height: 1.2; }
-  p.body { font-size: 15px; color: var(--ink); }
-  .cta-note { font-size: 14px; color: var(--ink-2); }
-  footer { margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--hairline); font-size: 13px; color: var(--ink-2); }
+  .callout strong { display: block; margin-bottom: 4px; color: #f7eccb; }
 
-  @media (max-width: 600px) {
-    header.hero { padding: 64px 20px 260px; }
-    .hero h1 { font-size: 44px; }
+  /* Privacy */
+  .privacy {
+    background: linear-gradient(135deg, rgba(45,212,191,.14), rgba(15,148,136,.10));
+    border: 1px solid rgba(45,212,191,.3); border-radius: 18px; padding: 24px 26px; font-size: 15.5px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .privacy .lock { font-size: 22px; line-height: 1.2; }
+
+  /* Bottom CTA */
+  .bottom-cta {
+    margin-top: 72px; text-align: center;
+    background:
+      radial-gradient(600px 300px at 50% -20%, rgba(45,212,191,.2), transparent 65%),
+      linear-gradient(170deg, #072422, #041615);
+    border: 1px solid var(--hairline); border-radius: 24px;
+    padding: 60px 24px;
+  }
+  .bottom-cta h2 { margin-bottom: 12px; }
+  .bottom-cta .sec-sub { margin-left: auto; margin-right: auto; }
+  .bottom-cta .cta-note { margin-top: 14px; }
+
+  footer { margin-top: 48px; padding: 26px 0 44px; border-top: 1px solid var(--hairline); font-size: 13px; color: var(--ink-3); text-align: center; }
+
+  @media (max-width: 640px) {
+    header.hero { padding: 60px 18px 300px; }
+    .hero h1 { font-size: 44px; letter-spacing: -1.2px; }
     .hero .tagline { font-size: 17px; }
-    .mock-stage { height: 230px; }
-    .mock-panel { width: 240px; }
-    .cards { grid-template-columns: 1fr; }
+    .mock-stage { height: 260px; }
+    .mock-panel { width: 232px; }
+    .mock-window { display: none; }
+    h2 { font-size: 28px; }
+    .steps, .cards { grid-template-columns: 1fr; }
     .facts { grid-template-columns: 1fr; row-gap: 4px; }
     .facts dd { margin-bottom: 10px; }
-    .cta { display: block; text-align: center; }
+    .cta { width: 100%; justify-content: center; }
+    .cta-row { align-items: stretch; }
   }
 </style>
 </head>
@@ -188,17 +256,35 @@
 
 <header class="hero">
   <div class="glow"></div>
-  <img class="icon" src="assets/icon.png" alt="SidePiece app icon: a teal rounded square with a mint S monogram">
-  <h1>SidePiece</h1>
-  <p class="tagline">A slim Telegram panel that lives on the edge of your Mac screen. Hover the strip and your chats slide out; move away and it docks itself.</p>
+  <div class="eyebrow"><span class="dot"></span>Unofficial beta for macOS</div>
+  <div><img class="icon" src="assets/icon.png" alt="SidePiece app icon: a teal rounded square with a mint S monogram"></div>
+  <h1>Telegram, one hover away.</h1>
+  <p class="tagline">SidePiece docks a slim Telegram panel to the edge of your Mac screen. Touch the edge and your chats slide out. Move away and it tucks itself back in.</p>
   <p class="unofficial">Unofficial. Not made by, affiliated with, or endorsed by Telegram.</p>
-  <a class="cta" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece.dmg" download>Download beta (DMG)</a>
-  <p class="cta-note">Free during beta. macOS 12 or later. Unsigned and not notarized.</p>
-  <p class="install-note"><strong>Install:</strong> Open the DMG, drag SidePiece to Applications, then open the app. If macOS blocks it, go to System Settings &gt; Privacy &amp; Security &gt; Open Anyway.</p>
-  <a class="secondary-cta" href="/cdn-cgi/l/email-protection#8cedfeeee3e2e3e1e3f9ffccfcfee3f8e3e2a2e1e9b3fff9eee6e9eff8b1dfe5e8e9dce5e9efe9a9bebceee9f8edaaeee3e8f5b1c5a9bebbe8a9bebce0e5e7e9a9bebcf8e3a9bebce6e3e5e2a9bebcf8e4e9a9bebcdfe5e8e9dce5e9efe9a9bebceee9f8eda2a9bebcc1f5a9bebcc1edefa9bebcfef9e2ffa9bebce1edefc3dfa9bebc">Email to join the beta</a>
+
+  <div class="cta-row">
+    <a class="cta" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece.dmg" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg>
+      Download beta (DMG)
+    </a>
+    <p class="cta-note">Free during beta &middot; macOS 12 or later &middot; unsigned build</p>
+    <a class="secondary-cta" href="/cdn-cgi/l/email-protection#066774646968696b69737546767469726968286b63">Email to join the beta list</a>
+  </div>
+
+  <div class="install-steps">
+    <span class="step"><b>1</b>Open the DMG</span>
+    <span class="step"><b>2</b>Drag SidePiece to Applications</span>
+    <span class="step"><b>3</b>Open the app</span>
+    <span class="step"><b>4</b>Blocked? System Settings &gt; Privacy &amp; Security &gt; Open Anyway</span>
+  </div>
+  <p class="install-warn"><strong>That "Open Anyway" step matters.</strong> The beta isn't signed with an Apple Developer ID yet, so macOS will warn the first time. Only use Open Anyway if you trust this build.</p>
 
   <div class="mock-stage" aria-hidden="true">
     <div class="mock-screen">
+      <div class="mock-menubar"><span></span><span></span><span class="s-badge">S 3</span></div>
+      <div class="mock-window">
+        <div class="line w1"></div><div class="line w2"></div><div class="line w3"></div><div class="line w4"></div>
+      </div>
       <div class="mock-rail"><div class="mock-pill"></div></div>
       <div class="mock-panel">
         <div class="mp-head">
@@ -218,51 +304,89 @@
 </header>
 
 <div class="wrap">
+
   <section>
-    <h2>What it does</h2>
+    <div class="sec-label">How it works</div>
+    <h2>Like the Dock, but for your chats.</h2>
+    <p class="sec-sub">No windows to manage, no tabs to lose. Three steps and it's part of the screen.</p>
+    <div class="steps">
+      <div class="step-card reveal"><div class="n">1</div><div class="name">Download and drag</div><div class="detail">Open the DMG, drop SidePiece in Applications, open it. Sign in to Telegram Web once; the session stays logged in across quits.</div></div>
+      <div class="step-card reveal"><div class="n">2</div><div class="name">Forget it's there</div><div class="detail">A thin strip pins itself to the left or right screen edge. It stays out of your way while you work.</div></div>
+      <div class="step-card reveal"><div class="n">3</div><div class="name">Hover, and it slides out</div><div class="detail">Rest your cursor on the strip for a beat and the panel glides out. It ignores drive-by brushes on the way to a scrollbar.</div></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label">Features</div>
+    <h2>Small panel, full Telegram.</h2>
+    <p class="sec-sub">Everything the beta does today, no filler.</p>
     <div class="cards">
-      <div class="card reveal"><div class="num">1</div><div class="name">Always one hover away</div><div class="detail">A thin strip pinned to the left or right screen edge. Rest your cursor on it for a beat and the panel slides out; it ignores drive-by brushes on the way to a scrollbar.</div></div>
-      <div class="card reveal"><div class="num">2</div><div class="name">Keep Panel Open when you need it</div><div class="detail">Pin the panel open from the menu bar so it stays put while you type, then unpin it and it docks itself again.</div></div>
-      <div class="card reveal"><div class="num">3</div><div class="name">Your Telegram, already set up</div><div class="detail">Runs Telegram Web in a persistent session. Log in once and it stays logged in across quits.</div></div>
-      <div class="card reveal"><div class="num">4</div><div class="name">Unread counts everywhere</div><div class="detail">A red pill on the strip, a badge on the Dock icon, and a count in the menu bar, with optional native notifications.</div></div>
-      <div class="card reveal"><div class="num">5</div><div class="name">Polite with your links</div><div class="detail">Links in chats open in your normal browser. The panel itself stays on web.telegram.org; nothing else loads inside it.</div></div>
-      <div class="card reveal"><div class="num">6</div><div class="name">Menu bar controls</div><div class="detail">Dock side, panel width, compact mode, expand on notification, and an explicit Launch at Login toggle that is off until you turn it on.</div></div>
+      <div class="card reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/></svg></div>
+        <div class="name">Pin it open when you need it</div>
+        <div class="detail">Keep Panel Open holds the panel in place while you type. Unpin from the menu bar and it docks itself again.</div>
+      </div>
+      <div class="card reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12h6"/></svg></div>
+        <div class="name">Unread counts everywhere</div>
+        <div class="detail">A red pill on the strip, a badge on the Dock icon, and a count in the menu bar, plus optional native notifications.</div>
+      </div>
+      <div class="card reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24"><path d="M10 5H6a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4"/><path d="M14 5h4a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-4"/><path d="M12 3v18"/></svg></div>
+        <div class="name">Your side, your width</div>
+        <div class="detail">Pick the left or right edge, set the panel width, and switch on compact mode from the menu bar.</div>
+      </div>
+      <div class="card reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/></svg></div>
+        <div class="name">Polite with your links</div>
+        <div class="detail">Links in chats open in your normal browser. The panel itself only ever loads web.telegram.org.</div>
+      </div>
+      <div class="card reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+        <div class="name">Wakes you when it matters</div>
+        <div class="detail">Turn on expand-on-notification and the panel slides out on its own when a message arrives. Off by default.</div>
+      </div>
+      <div class="card reveal">
+        <div class="glyph"><svg viewBox="0 0 24 24"><path d="M12 3v3"/><path d="M18.4 6.6 16.3 8.7"/><path d="M21 12h-3"/><path d="M5.6 6.6l2.1 2.1"/><path d="M3 12h3"/><circle cx="12" cy="14" r="4"/></svg></div>
+        <div class="name">Launch at Login, on your terms</div>
+        <div class="detail">There's an explicit toggle in the menu bar, and it's off until you turn it on. Nothing starts behind your back.</div>
+      </div>
     </div>
   </section>
 
   <section>
-    <h2>The honest status</h2>
-    <dl class="facts">
-      <dt>Made by</dt><dd>An independent developer. Telegram did not make it and does not endorse it.</dd>
-      <dt>Build status</dt><dd>Early beta, tested on a small number of Macs. macOS 12 or later needed.</dd>
-      <dt>Signing</dt><dd>Not signed or notarized yet, so macOS will warn before opening a downloaded copy.</dd>
-      <dt>Price</dt><dd>Free during beta.</dd>
-    </dl>
-    <div class="callout">
-      <strong>About the macOS warning</strong>
-      Until SidePiece is signed with an Apple Developer ID, macOS may say a downloaded copy can't be checked for malicious software. On macOS Sequoia and later you open it anyway via System Settings &gt; Privacy &amp; Security &gt; Open Anyway, Use Open Anyway only if you trust this build.
+    <div class="sec-label">Beta, honestly</div>
+    <h2>What you're signing up for.</h2>
+    <p class="sec-sub">This is an early, independent build. Here's the straight version.</p>
+    <div class="honest reveal">
+      <dl class="facts">
+        <dt>Made by</dt><dd>An independent developer. Telegram did not make it and does not endorse it.</dd>
+        <dt>Build status</dt><dd>Early beta, tested on a small number of Macs. Needs macOS 12 or later.</dd>
+        <dt>Signing</dt><dd>Not signed or notarized yet, so macOS will warn before opening a downloaded copy.</dd>
+        <dt>Price</dt><dd>Free during beta.</dd>
+        <dt>Distribution</dt><dd>Direct download from this page. The App Store may come later.</dd>
+      </dl>
+      <div class="callout">
+        <strong>About the macOS warning</strong>
+        Until SidePiece is signed with an Apple Developer ID, macOS may say a downloaded copy can't be checked for malicious software. On macOS Sequoia and later you open it anyway via System Settings &gt; Privacy &amp; Security &gt; Open Anyway. Use Open Anyway only if you trust this build.
+      </div>
     </div>
   </section>
 
   <section>
-    <h2>Name and store risks, up front</h2>
-    <p class="body">"Telegram" is someone else's trademark. This app never uses Telegram's logo, and the name only appears descriptively ("for Telegram"). Telegram could still ask for a rename; a rename before launch is cheap, a rename after launch is not.</p>
-    <p class="body">Apple's App Store often rejects apps that are thin wrappers around a website (guideline 4.2, minimum functionality). SidePiece's native docking, badges, and notifications may or may not be enough, so the first channel is direct download from this page, with the App Store as a later option.</p>
+    <div class="sec-label">Privacy</div>
+    <h2>Your chats stay yours.</h2>
+    <div class="privacy reveal"><span class="lock">&#x1F512;</span><span>SidePiece only talks to web.telegram.org. No analytics, no tracking, no third-party servers. Log in once and your session stays on your Mac. When you report a bug, never send screenshots of private chats.</span></div>
   </section>
 
-  <section>
-    <h2>What beta testers do</h2>
-    <ol class="beta">
-      <li>Install SidePiece on a Mac running macOS 12 or later.</li>
-      <li>Use it as your Telegram window for a week: chats, links, notifications, sleep and wake.</li>
-      <li>Report what broke or annoyed you. Never send screenshots of private chats.</li>
-    </ol>
-    <p class="cta-note" style="margin-top:16px;">Download the beta above. To send feedback or join the tester list, email <a href="/cdn-cgi/l/email-protection#bfdecdddd0d1d0d2d0caccffcfcdd0cbd0d191d2da80cccaddd5dadccb82ecd6dbdaefd6dadcda9a8d8fdddacbde"><span class="__cf_email__" data-cfemail="f8998a9a97969795978d8bb8888a978c9796d6959d">[email&#160;protected]</span></a>.</p>
-  </section>
-
-  <section>
-    <h2>Privacy</h2>
-    <p class="privacy"><span class="lock">&#x1F512;</span><span>SidePiece only talks to web.telegram.org. No analytics, no tracking, no third-party servers.</span></p>
+  <section class="bottom-cta reveal">
+    <h2>Try the beta.</h2>
+    <p class="sec-sub">Free during beta. macOS 12 or later. Bugs and feedback go to <a href="/cdn-cgi/l/email-protection#462734242928292b29333506363429322928682b23"><span class="__cf_email__" data-cfemail="ed8c9f8f8283828082989ead9d9f82998283c38088">[email&#160;protected]</span></a>.</p>
+    <a class="cta" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece.dmg" download>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg>
+      Download beta (DMG)
+    </a>
+    <p class="cta-note">Unofficial. Not made by, affiliated with, or endorsed by Telegram.</p>
   </section>
 
   <footer>
@@ -282,4 +406,3 @@
 </script>
 </body>
 </html>
-
