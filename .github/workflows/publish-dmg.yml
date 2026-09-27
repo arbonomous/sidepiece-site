@@ -1,0 +1,33 @@
+# Publishes a CI-built DMG to the beta-1 release. The DMG arrives as a signed
+# artifact-zip URL (from a sidepiece Actions run); the runner downloads it and
+# replaces the release asset with GITHUB_TOKEN - no PAT needed server-side.
+name: publish-dmg
+
+on:
+  workflow_dispatch:
+    inputs:
+      dmg_url:
+        description: Signed URL of the SidePiece-dmg artifact zip from a sidepiece Actions run
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download and unzip DMG
+        env:
+          DMG_URL: ${{ inputs.dmg_url }}
+        run: |
+          curl -fsSL -o /tmp/dmg.zip "$DMG_URL"
+          unzip -o /tmp/dmg.zip -d /tmp/dmg
+          ls -la /tmp/dmg
+          shasum -a 256 /tmp/dmg/SidePiece.dmg
+
+      - name: Replace beta-1 release asset
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release upload beta-1 /tmp/dmg/SidePiece.dmg --clobber
