@@ -10,6 +10,8 @@ on:
         description: Signed URL of the SidePiece-dmg artifact zip from a sidepiece Actions run
         required: true
         type: string
+  repository_dispatch:
+    types: [publish-dmg]
 
 permissions:
   contents: write
@@ -20,14 +22,19 @@ jobs:
     steps:
       - name: Download and unzip DMG
         env:
-          DMG_URL: ${{ inputs.dmg_url }}
+          DMG_URL: ${{ inputs.dmg_url || github.event.client_payload.dmg_url }}
         run: |
           curl -fsSL -o /tmp/dmg.zip "$DMG_URL"
           unzip -o /tmp/dmg.zip -d /tmp/dmg
           ls -la /tmp/dmg
           shasum -a 256 /tmp/dmg/SidePiece.dmg
 
-      - name: Replace beta-1 release asset
+      - name: Replace beta-1 release assets (DMG first, then update.json)
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload beta-1 /tmp/dmg/SidePiece.dmg --clobber -R ${{ github.repository }}
+        run: |
+          gh release upload beta-1 /tmp/dmg/SidePiece.dmg --clobber -R ${{ github.repository }}
+          if [ -f /tmp/dmg/update.json ]; then
+            gh release upload beta-1 /tmp/dmg/update.json --clobber -R ${{ github.repository }}
+          fi
+
