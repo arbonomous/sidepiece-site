@@ -30,4 +30,4 @@ jobs:
       - name: Replace beta-1 release asset
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release upload beta-1 /tmp/dmg/SidePiece.dmg --clobber
+        run: gh release upload beta-1 /tmp/dmg/SidePiece.dmg --clobber -R ${{ github.repository }}
