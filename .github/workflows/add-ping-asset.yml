@@ -1,0 +1,16 @@
+name: Add metrics assets
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  add:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create and upload install-ping.txt to beta-1
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo 1 > install-ping.txt
+          gh release upload beta-1 install-ping.txt --clobber
+          gh release view beta-1 --json assets --jq '.assets[] | "\(.name) \(.downloadCount)"'
