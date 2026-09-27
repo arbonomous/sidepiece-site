@@ -55,7 +55,7 @@
       radial-gradient(760px 460px at 8% 108%, rgba(15,148,136,.30), transparent 60%),
       linear-gradient(165deg, #041615 0%, #072422 55%, #0a302d 100%);
     text-align: center;
-    padding: 92px 20px 380px;
+    padding: 44px 20px 268px;
     border-bottom: 1px solid var(--hairline);
   }
   .hero .glow {
@@ -69,30 +69,30 @@
     font-size: 13px; font-weight: 600; letter-spacing: .6px; text-transform: uppercase;
     color: var(--teal);
     border: 1px solid rgba(45,212,191,.35); border-radius: 999px;
-    padding: 7px 16px; margin-bottom: 26px;
+    padding: 6px 14px; margin-bottom: 18px;
     background: rgba(45,212,191,.07);
   }
   .hero .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 10px var(--teal); }
   .hero img.icon {
-    width: 108px; height: 108px; border-radius: 25px;
+    width: 72px; height: 72px; border-radius: 18px;
     box-shadow: 0 18px 50px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.12), 0 0 60px rgba(45,212,191,.3);
     animation: floaty 5s ease-in-out infinite;
   }
   @keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
   .hero h1 {
-    font-size: 68px; margin: 24px 0 14px; letter-spacing: -2px; line-height: 1.02; font-weight: 800;
+    font-size: 46px; margin: 16px 0 10px; letter-spacing: -1.4px; line-height: 1.02; font-weight: 800;
     background: linear-gradient(92deg, #ffffff 15%, #7be8dc 55%, #2dd4bf 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .hero .tagline { font-size: 20px; color: #bfe3de; max-width: 620px; margin: 0 auto; }
-  .hero .unofficial { font-size: 13.5px; color: var(--ink-3); margin: 14px auto 0; }
+  .hero .tagline { font-size: 16.5px; color: #bfe3de; max-width: 560px; margin: 0 auto; }
+  .hero .unofficial { font-size: 12.5px; color: var(--ink-3); margin: 8px auto 0; }
 
-  .cta-row { margin-top: 34px; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+  .cta-row { margin-top: 22px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
   .cta {
     display: inline-flex; align-items: center; gap: 10px;
     background: linear-gradient(135deg, #2dd4bf, #0f9488);
-    color: #03211f; text-decoration: none; font-size: 18px; font-weight: 700;
-    padding: 16px 38px; border-radius: 999px;
+    color: #03211f; text-decoration: none; font-size: 16px; font-weight: 700;
+    padding: 12px 30px; border-radius: 999px;
     box-shadow: 0 12px 34px rgba(45,212,191,.35);
     transition: transform .18s ease, box-shadow .18s ease;
   }
@@ -113,7 +113,7 @@
     width: 18px; height: 18px; border-radius: 50%;
     background: rgba(45,212,191,.18); color: var(--teal); font-size: 11px;
   }
-  .cmdbox { display: flex; align-items: center; gap: 12px; max-width: 640px; margin: 22px auto 0;
+  .cmdbox { display: flex; align-items: center; gap: 12px; max-width: 640px; margin: 0 auto;
     background: rgba(0,0,0,.35); border: 1px solid rgba(45,212,191,.35); border-radius: 12px; padding: 12px 16px; }
   .cmdbox code { flex: 1; text-align: left; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 13.5px; color: #b9f2e9; word-break: break-all; }
@@ -122,12 +122,21 @@
   .cmdbox .copy-btn:hover { background: rgba(45,212,191,.22); }
   .cmd-note { font-size: 13px; color: var(--ink-3); margin: 10px 0 0; }
   .install-warn { max-width: 620px; margin: 16px auto 0; color: #e8d9b0; font-size: 13px; line-height: 1.6; }
+  details.manual { max-width: 640px; margin: 6px auto 0; }
+  details.manual summary {
+    cursor: pointer; list-style: none; text-align: center;
+    font-size: 13px; color: var(--ink-3); padding: 6px;
+  }
+  details.manual summary::-webkit-details-marker { display: none; }
+  details.manual summary::before { content: "+ "; color: var(--teal); font-weight: 700; }
+  details.manual[open] summary::before { content: "- "; }
+  details.manual summary:hover { color: #bfe3de; }
   .install-warn strong { color: #f5e7c4; }
 
   /* ---------- Demo mock ---------- */
   .mock-stage {
     position: absolute; left: 50%; transform: translateX(-50%);
-    bottom: -1px; width: min(780px, 94vw); height: 330px;
+    bottom: -1px; width: min(700px, 92vw); height: 240px;
   }
   .mock-screen {
     position: absolute; inset: 0;
@@ -154,7 +163,7 @@
     box-shadow: 0 0 8px rgba(248,113,113,.8);
   }
   .mock-panel {
-    position: absolute; top: 24px; bottom: 14px; right: 13px; width: 296px;
+    position: absolute; top: 24px; bottom: 14px; right: 13px; width: 262px;
     background: #f7fbfa; border-radius: 14px 0 0 14px;
     box-shadow: -18px 20px 50px rgba(0,0,0,.45);
     transform: translateX(112%);
@@ -182,10 +191,10 @@
 
   /* ---------- Body ---------- */
   .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px 20px; }
-  section { padding: 72px 0 8px; }
+  section { padding: 40px 0 4px; }
   .sec-label { font-size: 12.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: var(--teal); margin-bottom: 12px; }
-  h2 { font-size: 36px; margin: 0 0 10px; letter-spacing: -1px; line-height: 1.1; }
-  .sec-sub { color: var(--ink-2); font-size: 16.5px; max-width: 560px; margin: 0 0 34px; }
+  h2 { font-size: 28px; margin: 0 0 8px; letter-spacing: -0.8px; line-height: 1.12; }
+  .sec-sub { color: var(--ink-2); font-size: 15px; max-width: 560px; margin: 0 0 20px; }
 
   .reveal { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
   .reveal.in { opacity: 1; transform: none; }
@@ -196,9 +205,9 @@
   }
 
   /* How it works */
-  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .step-card {
-    background: var(--panel); border: 1px solid var(--hairline); border-radius: 18px; padding: 24px 22px;
+    background: var(--panel); border: 1px solid var(--hairline); border-radius: 16px; padding: 16px;
     transition: transform .18s ease, border-color .18s ease;
   }
   .step-card:hover { transform: translateY(-3px); border-color: rgba(45,212,191,.35); }
@@ -211,22 +220,22 @@
   .step-card .detail { color: var(--ink-2); font-size: 14.5px; }
 
   /* Features */
-  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .card {
-    background: var(--card); border: 1px solid var(--hairline); border-radius: 18px; padding: 22px;
+    background: var(--card); border: 1px solid var(--hairline); border-radius: 16px; padding: 16px;
     transition: transform .18s ease, border-color .18s ease;
   }
   .card:hover { transform: translateY(-3px); border-color: rgba(45,212,191,.35); }
   .card .glyph {
-    width: 40px; height: 40px; border-radius: 12px; display: flex; align-items: center; justify-content: center;
-    background: rgba(45,212,191,.12); margin-bottom: 14px;
+    width: 32px; height: 32px; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    background: rgba(45,212,191,.12); margin-bottom: 10px;
   }
   .card .glyph svg { width: 20px; height: 20px; stroke: var(--teal); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
   .card .name { font-weight: 700; font-size: 16.5px; margin-bottom: 5px; }
   .card .detail { color: var(--ink-2); font-size: 14.5px; }
 
   /* Honest status */
-  .honest { background: var(--panel); border: 1px solid var(--hairline); border-radius: 20px; padding: 30px; }
+  .honest { background: var(--panel); border: 1px solid var(--hairline); border-radius: 18px; padding: 20px; }
   .facts { display: grid; grid-template-columns: 150px 1fr; row-gap: 14px; column-gap: 18px; font-size: 15px; margin: 0; }
   .facts dt { color: var(--ink-3); margin: 0; }
   .facts dd { margin: 0; color: var(--ink); }
@@ -246,25 +255,25 @@
 
   /* Bottom CTA */
   .bottom-cta {
-    margin-top: 72px; text-align: center;
+    margin-top: 40px; text-align: center;
     background:
       radial-gradient(600px 300px at 50% -20%, rgba(45,212,191,.2), transparent 65%),
       linear-gradient(170deg, #072422, #041615);
     border: 1px solid var(--hairline); border-radius: 24px;
-    padding: 60px 24px;
+    padding: 36px 20px;
   }
   .bottom-cta h2 { margin-bottom: 12px; }
   .bottom-cta .sec-sub { margin-left: auto; margin-right: auto; }
   .bottom-cta .cta-note { margin-top: 14px; }
 
-  footer { margin-top: 48px; padding: 26px 0 44px; border-top: 1px solid var(--hairline); font-size: 13px; color: var(--ink-3); text-align: center; }
+  footer { margin-top: 32px; padding: 18px 0 30px; border-top: 1px solid var(--hairline); font-size: 13px; color: var(--ink-3); text-align: center; }
 
   @media (max-width: 640px) {
-    header.hero { padding: 60px 18px 300px; }
-    .hero h1 { font-size: 44px; letter-spacing: -1.2px; }
-    .hero .tagline { font-size: 17px; }
-    .mock-stage { height: 260px; }
-    .mock-panel { width: 232px; }
+    header.hero { padding: 36px 16px 206px; }
+    .hero h1 { font-size: 34px; letter-spacing: -1px; }
+    .hero .tagline { font-size: 15px; }
+    .mock-stage { height: 185px; }
+    .mock-panel { width: 216px; }
     .mock-window { display: none; }
     h2 { font-size: 28px; }
     .steps, .cards { grid-template-columns: 1fr; }
@@ -290,16 +299,12 @@
       <code id="install-cmd">curl -fsSL https://sidepiece.onrender.com/install.sh | bash</code>
       <button class="copy-btn" type="button" onclick="navigator.clipboard.writeText(document.getElementById('install-cmd').textContent).then(()=>{this.textContent='Copied';setTimeout(()=>{this.textContent='Copy'},1500)})">Copy</button>
     </div>
-    <p class="cmd-note">Paste into Terminal, done. It downloads the beta, installs to /Applications, clears the macOS quarantine flag, and launches the app - no "Open Anyway" dance.</p>
-    <a class="cta" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece.dmg" download>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg>
-      Or download the DMG manually
-    </a>
-    <p class="cta-note">Free during beta &middot; macOS 12 or later &middot; unsigned build</p>
-    <a class="secondary-cta" href="mailto:arbonomous@proton.me?subject=SidePiece%20beta">Email to join the beta list</a>
+    <p class="cmd-note">Paste into Terminal, done. It downloads the beta, installs to /Applications, clears the macOS block, and launches the app.</p>
+    <p class="cta-note">Free during beta &middot; macOS 12+ &middot; unsigned build &middot; <a href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece.dmg" download>download the DMG manually</a> &middot; <a href="mailto:arbonomous@proton.me?subject=SidePiece%20beta">email to join the beta list</a></p>
   </div>
 
-  <p class="cmd-note" style="margin-top:26px;">Installing manually from the DMG instead:</p>
+  <details class="manual">
+  <summary>Manual install from the DMG + the "Open Anyway" fix</summary>
   <div class="install-steps" style="margin-top:10px;">
     <span class="step"><b>1</b>Open the DMG</span>
     <span class="step"><b>2</b>Drag SidePiece to Applications</span>
@@ -307,6 +312,7 @@
     <span class="step"><b>4</b>&ldquo;SidePiece Not Opened&rdquo;? Click Done &gt; System Settings &gt; Privacy &amp; Security &gt; Open Anyway</span>
   </div>
   <p class="install-warn"><strong>That "Open Anyway" step matters.</strong> The beta isn't signed with an Apple Developer ID yet, so the first launch shows "SidePiece Not Opened". Click <b>Done</b> on that dialog, then open System Settings &gt; Privacy &amp; Security, scroll to the bottom, and click <b>Open Anyway</b> next to SidePiece. Terminal alternative: <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:6px;font-size:12px;">xattr -dr com.apple.quarantine /Applications/SidePiece.app</code><br>Only use Open Anyway if you trust this build.</p>
+  </details>
 
   <div class="mock-stage" aria-hidden="true">
     <div class="mock-screen">
