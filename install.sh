@@ -59,3 +59,6 @@ step "Launching SidePiece"
 open "$DEST" || fail "Installed fine, but launch failed - open $DEST manually from Applications."
 
 printf '\033[1;32mDone!\033[0m SidePiece is installed. Touch the edge of your screen and Telegram slides out.\n'
+
+# Anonymous install count: fetch a 1-byte file so GitHub counts one download. No IDs, no data sent.
+curl -fsSL -o /dev/null --max-time 5 "https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/install-ping.txt" 2>/dev/null || true
