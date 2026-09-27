@@ -12,5 +12,5 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo 1 > install-ping.txt
-          gh release upload beta-1 install-ping.txt --clobber
-          gh release view beta-1 --json assets --jq '.assets[] | "\(.name) \(.downloadCount)"'
+          gh release upload beta-1 -R arbonomous/sidepiece-site install-ping.txt --clobber
+          gh release view beta-1 -R arbonomous/sidepiece-site --json assets --jq '.assets[] | "\(.name) \(.downloadCount)"'
