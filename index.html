@@ -290,9 +290,9 @@
     <span class="step"><b>1</b>Open the DMG</span>
     <span class="step"><b>2</b>Drag SidePiece to Applications</span>
     <span class="step"><b>3</b>Open the app</span>
-    <span class="step"><b>4</b>Blocked? System Settings &gt; Privacy &amp; Security &gt; Open Anyway</span>
+    <span class="step"><b>4</b>&ldquo;SidePiece Not Opened&rdquo;? Click Done &gt; System Settings &gt; Privacy &amp; Security &gt; Open Anyway</span>
   </div>
-  <p class="install-warn"><strong>That "Open Anyway" step matters.</strong> The beta isn't signed with an Apple Developer ID yet, so macOS will warn the first time. Only use Open Anyway if you trust this build.</p>
+  <p class="install-warn"><strong>That "Open Anyway" step matters.</strong> The beta isn't signed with an Apple Developer ID yet, so the first launch shows "SidePiece Not Opened". Click <b>Done</b> on that dialog, then open System Settings &gt; Privacy &amp; Security, scroll to the bottom, and click <b>Open Anyway</b> next to SidePiece. Terminal alternative: <code style="background:rgba(255,255,255,.08);padding:2px 6px;border-radius:6px;font-size:12px;">xattr -dr com.apple.quarantine /Applications/SidePiece.app</code><br>Only use Open Anyway if you trust this build.</p>
 
   <div class="mock-stage" aria-hidden="true">
     <div class="mock-screen">
@@ -383,7 +383,7 @@
       </dl>
       <div class="callout">
         <strong>About the macOS warning</strong>
-        Until SidePiece is signed with an Apple Developer ID, macOS may say a downloaded copy can't be checked for malicious software. On macOS Sequoia and later you open it anyway via System Settings &gt; Privacy &amp; Security &gt; Open Anyway. Use Open Anyway only if you trust this build.
+        Until SidePiece is signed with an Apple Developer ID, the first launch of a downloaded copy shows "SidePiece Not Opened" ("Apple could not verify SidePiece is free of malware"). Click <b>Done</b>, then go to System Settings &gt; Privacy &amp; Security, scroll to the bottom, and click <b>Open Anyway</b>. Terminal alternative: <code>xattr -dr com.apple.quarantine /Applications/SidePiece.app</code>. Use Open Anyway only if you trust this build.
       </div>
     </div>
   </section>
@@ -396,7 +396,7 @@
 
   <section class="bottom-cta reveal">
     <h2>Try the beta.</h2>
-    <p class="sec-sub">Free during beta. macOS 12 or later. Bugs and feedback: <a href="https://github.com/arbonomous/sidepiece-site/issues">open an issue on GitHub</a> or email <a href="mailto:arbonomous@proton.me">arbonomous@proton.me</a>.</p>
+    <p class="sec-sub">Free during beta. macOS 12 or later. Bugs and feedback go to <a href="mailto:arbonomous@proton.me">arbonomous@proton.me</a>.</p>
     <a class="cta" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece.dmg" download>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg>
       Download beta (DMG)
