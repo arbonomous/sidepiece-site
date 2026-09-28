@@ -10,6 +10,10 @@ on:
         description: Signed URL of the SidePiece-dmg artifact zip from a sidepiece Actions run
         required: true
         type: string
+      build:
+        description: SIDEPIECE_BUILD of the artifact being published
+        required: true
+        type: string
   repository_dispatch:
     types: [publish-dmg]
 
@@ -20,7 +24,24 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
+      # repository_dispatch runs can materialize hours late or duplicated; a
+      # stale publish once reverted the live release to an older build. Refuse
+      # anything that is not newer than the manifest already on the release.
+      - name: Skip stale or duplicate publishes
+        env:
+          PAYLOAD_BUILD: ${{ inputs.build || github.event.client_payload.build }}
+        run: |
+          set -euo pipefail
+          test -n "${PAYLOAD_BUILD:-}" || { echo "payload carries no build number - refusing to publish"; exit 1; }
+          LIVE="$(curl -fsSL "https://github.com/${{ github.repository }}/releases/download/beta-1/update.json?v=$RANDOM" | jq -r '.build // 0')" || LIVE=0
+          echo "payload build $PAYLOAD_BUILD, live build ${LIVE:-0}"
+          if [ "$PAYLOAD_BUILD" -le "${LIVE:-0}" ]; then
+            echo "stale or duplicate publish - skipping"
+            echo "SKIP_PUBLISH=1" >> "$GITHUB_ENV"
+          fi
+
       - name: Download and unzip DMG
+        if: env.SKIP_PUBLISH != '1'
         env:
           DMG_URL: ${{ inputs.dmg_url || github.event.client_payload.dmg_url }}
         run: |
@@ -30,6 +51,7 @@ jobs:
           shasum -a 256 /tmp/dmg/SidePiece.dmg
 
       - name: Replace beta-1 release assets (DMG first, then update.json)
+        if: env.SKIP_PUBLISH != '1'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
