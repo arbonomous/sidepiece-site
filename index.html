@@ -28,15 +28,15 @@ main{width:min(1050px,calc(100% - 40px));margin:auto;min-height:100vh;display:fl
 h1{max-width:900px;margin:0;font-size:clamp(42px,6.5vw,82px);line-height:1.04;letter-spacing:-.055em;font-weight:780;text-wrap:balance}
 h1 span{color:var(--mint)}
 .sub{max-width:640px;margin:22px 0 37px;color:var(--muted);font-size:clamp(17px,2vw,21px);line-height:1.5;text-wrap:balance}
-.downloads{display:flex;flex-wrap:wrap;justify-content:center;gap:14px;width:100%}
+.downloads{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:14px;width:min(760px,100%);text-align:left}.download-card{min-width:0;padding:18px;border:1px solid rgba(45,212,191,.35);border-radius:16px;background:rgba(45,212,191,.055)}.download-card h2{margin:0 0 10px;color:var(--ink);font-size:15px}.command{display:flex;align-items:center;gap:8px;padding:9px 10px;border-radius:9px;border:1px solid rgba(45,212,191,.4);background:#051d1b}.command code{min-width:0;overflow-x:auto;white-space:nowrap;color:#c5f6ed;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace}.copy{flex:none;border:0;border-radius:7px;padding:8px 10px;background:var(--mint);color:#062a27;font-weight:700;cursor:pointer}.manual{display:inline-block;margin-top:10px;color:var(--muted);font-size:12px;text-underline-offset:3px}.small-note{display:block;margin-top:8px;color:var(--soft);font-size:12px;line-height:1.45}
 .download{min-width:225px;padding:17px 23px;border-radius:14px;text-decoration:none;font-size:17px;font-weight:700;transition:transform .18s,box-shadow .18s}
 .download:hover{transform:translateY(-2px)}.download:focus-visible{outline:3px solid white;outline-offset:4px}
 .download.mac{background:var(--mint);color:#062a27;box-shadow:0 12px 32px rgba(45,212,191,.17)}
-.download.pc{border:1px solid rgba(45,212,191,.55);color:var(--ink);background:rgba(45,212,191,.09)}
+.download.pc{display:flex;align-items:center;justify-content:center;min-height:58px;border:1px solid rgba(45,212,191,.55);color:var(--ink);background:rgba(45,212,191,.09)}
 .note{max-width:700px;margin:23px 0 0;color:var(--soft);font-size:13px;line-height:1.55}
 .note a{color:var(--muted);text-underline-offset:3px}
 footer{margin-top:auto;padding-top:80px;color:var(--soft);font-size:12px;line-height:1.5}
-@media(max-width:560px){main{width:min(100% - 36px,420px);justify-content:flex-start;padding-top:70px}.brand-lockup{margin-bottom:37px;gap:12px}.brand{font-size:clamp(25px,7vw,32px)}h1{font-size:clamp(40px,12vw,57px)}.sub{margin:21px 0 31px}.downloads{flex-direction:column;gap:11px}.download{width:100%}.note{margin-top:19px}footer{padding-top:62px}}
+@media(max-width:560px){main{width:min(100% - 36px,420px);justify-content:flex-start;padding-top:70px}.brand-lockup{margin-bottom:37px;gap:12px}.brand{font-size:clamp(25px,7vw,32px)}h1{font-size:clamp(40px,12vw,57px)}.sub{margin:21px 0 31px}.downloads{grid-template-columns:1fr;gap:11px}.download{width:100%}.download-card{padding:16px}.note{margin-top:19px}footer{padding-top:62px}}
 @media(prefers-reduced-motion:reduce){.download{transition:none}}
 </style>
 </head>
@@ -46,10 +46,15 @@ footer{margin-top:auto;padding-top:80px;color:var(--soft);font-size:12px;line-he
   <h1>Free up your <span>screen real estate.</span></h1>
   <p class="sub">Telegram stays tucked at the edge of your screen until you hover.</p>
   <div class="downloads">
-    <a class="download mac" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece.dmg" download>Download for Mac</a>
-    <a class="download pc" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece-Windows-Setup.exe" download>Download for Windows</a>
+    <div class="download-card">
+      <h2>Mac: paste this into Terminal</h2>
+      <div class="command"><code id="install-cmd">curl -fsSL https://sidepiece.onrender.com/install.sh | bash</code><button class="copy" type="button" onclick="navigator.clipboard.writeText(document.getElementById('install-cmd').textContent).then(()=>{this.textContent='Copied';setTimeout(()=>{this.textContent='Copy'},1800)})">Copy</button></div>
+      <span class="small-note">Installs SidePiece, clears the macOS quarantine flag, then opens it. Run only if you trust this unsigned beta.</span>
+      <a class="manual" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece.dmg" download>Or download the Mac DMG manually</a>
+    </div>
+    <div class="download-card"><h2>Windows</h2><a class="download pc" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece-Windows-Setup.exe" download>Download for Windows</a><span class="small-note">Unsigned beta. Windows may warn before opening.</span></div>
   </div>
-  <p class="note">Free beta. Both builds are unsigned, so your device may warn before opening. <a href="mailto:arbonomous@proton.me?subject=SidePiece%20beta%20feedback">Send feedback</a>.</p>
+  <p class="note">Free beta. <a href="mailto:arbonomous@proton.me?subject=SidePiece%20beta%20feedback">Send feedback</a>.</p>
   <footer>Unofficial. Not made by or affiliated with Telegram.</footer>
 </main>
 </body>
