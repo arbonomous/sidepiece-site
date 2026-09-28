@@ -4,20 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SidePiece - Telegram, one hover away</title>
-<meta name="description" content="SidePiece is an unofficial macOS app that keeps Telegram Web one hover away, docked to the edge of your screen. Free beta.">
+<meta name="description" content="SidePiece is an unofficial Mac and Windows beta that keeps Telegram Web one hover away, docked to the edge of your screen.">
 <link rel="icon" type="image/png" href="assets/icon.png">
 <link rel="apple-touch-icon" href="assets/icon.png">
 <meta name="theme-color" content="#0b1d1c">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://sidepiece.onrender.com/">
 <meta property="og:title" content="SidePiece - Telegram, one hover away">
-<meta property="og:description" content="A slim Telegram panel docked to the edge of your Mac screen. Unofficial, free macOS beta.">
+<meta property="og:description" content="A slim Telegram panel docked to your screen edge. Unofficial, free beta for Mac and Windows.">
 <meta property="og:image" content="https://sidepiece.onrender.com/assets/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="SidePiece - Telegram, one hover away">
-<meta name="twitter:description" content="A slim Telegram panel docked to the edge of your Mac screen. Unofficial, free macOS beta.">
+<meta name="twitter:description" content="A slim Telegram panel docked to your screen edge. Unofficial, free beta for Mac and Windows.">
 <meta name="twitter:image" content="https://sidepiece.onrender.com/assets/og-card.png">
 <noscript><style>.reveal{opacity:1 !important;transform:none !important}</style></noscript>
 <style>
@@ -288,19 +288,23 @@
 
 <header class="hero">
   <div class="glow"></div>
-  <div class="eyebrow"><span class="dot"></span>Unofficial beta for macOS</div>
+  <div class="eyebrow"><span class="dot"></span>Unofficial beta for Mac and Windows</div>
   <div><img class="icon" src="assets/icon.png" alt="SidePiece app icon: a teal rounded square with a mint S monogram"></div>
   <h1>Telegram, one hover away.</h1>
-  <p class="tagline">SidePiece docks a slim Telegram panel to the edge of your Mac screen. Touch the edge and your chats slide out. Move away and it tucks itself back in.</p>
+  <p class="tagline">SidePiece docks a slim Telegram panel to the edge of your Mac or Windows screen. Touch the edge and your chats slide out. Move away and it tucks itself back in.</p>
   <p class="unofficial">Unofficial. Not made by, affiliated with, or endorsed by Telegram.</p>
 
   <div class="cta-row">
+    <p class="cta-note">For Mac</p>
     <div class="cmdbox">
       <code id="install-cmd">curl -fsSL https://sidepiece.onrender.com/install.sh | bash</code>
       <button class="copy-btn" type="button" onclick="navigator.clipboard.writeText(document.getElementById('install-cmd').textContent).then(()=>{this.textContent='Copied';setTimeout(()=>{this.textContent='Copy'},1500)})">Copy</button>
     </div>
-    <p class="cmd-note">Paste into Terminal, done. It downloads the beta, installs to /Applications, clears the macOS block, and launches the app.</p>
+    <p class="cmd-note">Mac: paste into Terminal, done. It downloads the beta, installs to /Applications, clears the macOS block, and launches the app.</p>
     <p class="cta-note">Free during beta &middot; macOS 12+ &middot; unsigned build &middot; <a href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece.dmg" download>download the DMG manually</a> &middot; <a href="mailto:arbonomous@proton.me?subject=SidePiece%20beta">email to join the beta list</a></p>
+    <p class="cta-note">For PC</p>
+    <a class="cta" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece-Windows-Setup.exe" download>Download for Windows (x64)</a>
+    <p class="cta-note">Windows x64 beta &middot; unsigned installer &middot; first PC tester check pending. Windows may warn about an unknown publisher; open only if you trust this build.</p>
   </div>
 
   <details class="manual">
@@ -396,8 +400,8 @@
     <div class="honest reveal">
       <dl class="facts">
         <dt>Made by</dt><dd>An independent developer. Telegram did not make it and does not endorse it.</dd>
-        <dt>Build status</dt><dd>Early beta, tested on a small number of Macs. Needs macOS 12 or later.</dd>
-        <dt>Signing</dt><dd>Not signed or notarized yet, so macOS will warn before opening a downloaded copy.</dd>
+        <dt>Build status</dt><dd>Mac beta tested on a small number of Macs (macOS 12+). Windows x64 installer built and checked in CI; hands-on PC testing is still pending.</dd>
+        <dt>Signing</dt><dd>Unsigned beta. macOS and Windows may warn before opening the downloaded build.</dd>
         <dt>Price</dt><dd>Free during beta.</dd>
         <dt>Distribution</dt><dd>Direct download from this page. The App Store may come later.</dd>
       </dl>
@@ -411,16 +415,18 @@
   <section>
     <div class="sec-label">Privacy</div>
     <h2>Your chats stay yours.</h2>
-    <div class="privacy reveal"><span class="lock">&#x1F512;</span><span>SidePiece talks to web.telegram.org, plus one small check a day on GitHub to see if a new version is out. The installer and that update check each ping GitHub once so we can count installs and active users - counts only: no IDs, no personal data, no analytics, no tracking, no accounts. Log in once and your session stays on your Mac. When you report a bug, never send screenshots of private chats.</span></div>
+    <div class="privacy reveal"><span class="lock">&#x1F512;</span><span>SidePiece loads Telegram Web. The Mac build checks GitHub daily for updates and sends anonymous install and active-use pings; the Windows beta does not include those pings or automatic updates. No chat contents are sent to us. Your Telegram Web sign-in stays on your device. When reporting a bug, never send screenshots of private chats.</span></div>
   </section>
 
   <section class="bottom-cta reveal">
     <h2>Try the beta.</h2>
-    <p class="sec-sub">Free during beta. macOS 12 or later. Bugs and feedback go to <a href="mailto:arbonomous@proton.me">arbonomous@proton.me</a>.</p>
+    <p class="sec-sub">Free during beta. Mac: macOS 12+. PC: Windows x64, first tester check pending. Bugs and feedback go to <a href="mailto:arbonomous@proton.me">arbonomous@proton.me</a>.</p>
     <a class="cta" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece.dmg" download>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M4 21h16"/></svg>
       Download beta (DMG)
     </a>
+    <a class="secondary-cta" href="https://github.com/arbonomous/sidepiece-site/releases/download/beta-1/SidePiece-Windows-Setup.exe" download>Download Windows x64 beta (EXE)</a>
+    <p class="cta-note">Windows installer is unsigned and has not yet been tested on a PC. Expect an unknown-publisher warning.</p>
     <p class="cta-note">Unofficial. Not made by, affiliated with, or endorsed by Telegram.</p>
   </section>
 
