@@ -38,6 +38,12 @@ if pgrep -x SidePiece > /dev/null 2>&1; then
     sleep 1
   done
   if pgrep -x SidePiece > /dev/null 2>&1; then
+    # A duplicate copy (e.g. launched from Downloads) may be the one still
+    # running; osascript quit by name only reaches one instance.
+    pkill -f 'SidePiece.app/Contents/MacOS/SidePiece' 2>/dev/null || true
+    sleep 1
+  fi
+  if pgrep -x SidePiece > /dev/null 2>&1; then
     fail "SidePiece is still running. Quit it first (right-click its Dock icon > Quit), then re-run this command."
   fi
 fi
@@ -54,6 +60,26 @@ xattr -dr com.apple.quarantine "$DEST" 2>/dev/null || true
 if xattr "$DEST" 2>/dev/null | grep -q 'com.apple.quarantine'; then
   fail "Could not clear the quarantine flag. Run: sudo xattr -dr com.apple.quarantine $DEST"
 fi
+
+step "Checking for duplicate copies"
+# Older installs can live in Downloads/Desktop/etc. The Dock may keep launching
+# such a copy even after /Applications is updated. Move every copy other than
+# /Applications/SidePiece.app to the Trash. App data lives in ~/Library, not in
+# the bundle, so this is safe; no-op when nothing extra is found.
+if command -v mdfind > /dev/null 2>&1; then
+  while IFS= read -r dupe; do
+    [ "$dupe" = "$DEST" ] && continue
+    case "$dupe" in "$HOME/.Trash/"*|/Volumes/*|"$MNT"*|/private/var/*) continue;; esac
+    [ -d "$dupe" ] || continue
+    target="$HOME/.Trash/SidePiece.app"
+    n=1
+    while [ -e "$target" ]; do target="$HOME/.Trash/SidePiece $n.app"; n=$((n+1)); done
+    if mv "$dupe" "$target" 2> /dev/null; then
+      echo "  Moved old copy to the Trash: $dupe"
+    fi
+  done < <(mdfind "kMDItemCFBundleIdentifier == 'com.sidepiece.app'" 2>/dev/null)
+fi
+killall Dock 2>/dev/null || true
 
 step "Launching SidePiece"
 open "$DEST" || fail "Installed fine, but launch failed - open $DEST manually from Applications."
