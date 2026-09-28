@@ -24,7 +24,7 @@ html{min-height:100%;background:var(--bg)}
 body{min-height:100vh;margin:0;color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:radial-gradient(ellipse 70% 55% at 50% 12%,rgba(45,212,191,.16),transparent 80%),linear-gradient(155deg,#071715,var(--bg) 75%);-webkit-font-smoothing:antialiased}
 main{width:min(1050px,calc(100% - 40px));margin:auto;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:64px 0 34px}
 .icon{width:70px;height:70px;border-radius:17px;box-shadow:0 20px 52px rgba(0,0,0,.36)}
-.brand{margin:15px 0 43px;font-size:13px;font-weight:700;letter-spacing:.17em;text-transform:uppercase;color:var(--mint)}
+.brand-lockup{display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:43px}.brand{font-size:17px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--mint)}
 h1{max-width:900px;margin:0;font-size:clamp(42px,6.5vw,82px);line-height:1.04;letter-spacing:-.055em;font-weight:780;text-wrap:balance}
 h1 span{color:var(--mint)}
 .sub{max-width:640px;margin:22px 0 37px;color:var(--muted);font-size:clamp(17px,2vw,21px);line-height:1.5;text-wrap:balance}
@@ -36,14 +36,13 @@ h1 span{color:var(--mint)}
 .note{max-width:700px;margin:23px 0 0;color:var(--soft);font-size:13px;line-height:1.55}
 .note a{color:var(--muted);text-underline-offset:3px}
 footer{margin-top:auto;padding-top:80px;color:var(--soft);font-size:12px;line-height:1.5}
-@media(max-width:560px){main{width:min(100% - 36px,420px);justify-content:flex-start;padding-top:70px}.brand{margin-bottom:37px}h1{font-size:clamp(40px,12vw,57px)}.sub{margin:21px 0 31px}.downloads{flex-direction:column;gap:11px}.download{width:100%}.note{margin-top:19px}footer{padding-top:62px}}
+@media(max-width:560px){main{width:min(100% - 36px,420px);justify-content:flex-start;padding-top:70px}.brand-lockup{margin-bottom:37px}.brand{font-size:16px}h1{font-size:clamp(40px,12vw,57px)}.sub{margin:21px 0 31px}.downloads{flex-direction:column;gap:11px}.download{width:100%}.note{margin-top:19px}footer{padding-top:62px}}
 @media(prefers-reduced-motion:reduce){.download{transition:none}}
 </style>
 </head>
 <body>
 <main>
-  <img class="icon" src="assets/icon.png" alt="SidePiece icon" width="70" height="70">
-  <div class="brand">SidePiece</div>
+  <div class="brand-lockup"><img class="icon" src="assets/icon.png" alt="SidePiece icon" width="70" height="70"><div class="brand">SidePiece</div></div>
   <h1>Free up your <span>screen real estate.</span></h1>
   <p class="sub">Telegram stays tucked at the edge of your screen until you hover.</p>
   <div class="downloads">
