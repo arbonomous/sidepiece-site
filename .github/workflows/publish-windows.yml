@@ -1,0 +1,66 @@
+# Publish only the Windows installer binary from the private SidePiece CI artifact.
+name: publish-windows
+on:
+  repository_dispatch:
+    types: [publish-windows]
+  workflow_dispatch:
+    inputs:
+      installer_url:
+        description: Signed URL to the private CI installer artifact zip
+        required: true
+        type: string
+      build:
+        description: Windows build number
+        required: true
+        type: string
+permissions:
+  contents: write
+concurrency:
+  group: publish-windows-beta
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Refuse stale or duplicate Windows builds
+        env:
+          PAYLOAD_BUILD: ${{ inputs.build || github.event.client_payload.build }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          [[ "$PAYLOAD_BUILD" =~ ^[0-9]+$ ]] || { echo 'Windows build must be numeric'; exit 1; }
+          if gh release download beta-1 -R "${{ github.repository }}" -p windows-update.json -D /tmp --clobber; then
+            LIVE="$(jq -er '.build | numbers' /tmp/windows-update.json)"
+          else
+            LIVE=0
+          fi
+          echo "incoming Windows build $PAYLOAD_BUILD; live Windows build $LIVE"
+          if [ "$PAYLOAD_BUILD" -le "$LIVE" ]; then
+            echo 'stale or duplicate Windows build - skipping'
+            echo 'SKIP_PUBLISH=1' >> "$GITHUB_ENV"
+          fi
+      - name: Download and validate installer artifact
+        if: env.SKIP_PUBLISH != '1'
+        env:
+          INSTALLER_URL: ${{ inputs.installer_url || github.event.client_payload.installer_url }}
+          PAYLOAD_BUILD: ${{ inputs.build || github.event.client_payload.build }}
+        run: |
+          set -euo pipefail
+          test -n "$INSTALLER_URL" || { echo 'missing artifact URL'; exit 1; }
+          curl -fsSL -o /tmp/windows.zip "$INSTALLER_URL"
+          unzip -o /tmp/windows.zip -d /tmp/windows
+          shopt -s nullglob
+          installers=(/tmp/windows/SidePiece-Windows-*-Setup.exe)
+          test "${#installers[@]}" -eq 1 || { echo 'expected exactly one Windows installer'; exit 1; }
+          test "$(stat -c %s "${installers[0]}")" -gt 10000000 || { echo 'installer too small'; exit 1; }
+          cp "${installers[0]}" /tmp/SidePiece-Windows-Setup.exe
+          sha256sum /tmp/SidePiece-Windows-Setup.exe
+          jq -n --argjson build "$PAYLOAD_BUILD" --arg sha256 "$(sha256sum /tmp/SidePiece-Windows-Setup.exe | cut -d' ' -f1)" '{build:$build,sha256:$sha256,architecture:"x64",status:"beta"}' > /tmp/windows-update.json
+      - name: Upload Windows installer, then manifest
+        if: env.SKIP_PUBLISH != '1'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          gh release upload beta-1 /tmp/SidePiece-Windows-Setup.exe --clobber -R "${{ github.repository }}"
+          gh release upload beta-1 /tmp/windows-update.json --clobber -R "${{ github.repository }}"
