@@ -55,10 +55,14 @@ fi
 cp -R "$MNT/$APP" "$DEST" || fail "Copy to /Applications failed. Re-run as: curl -fsSL https://sidepiece.onrender.com/install.sh | sudo bash"
 [ -x "$DEST/Contents/MacOS/SidePiece" ] || fail "Copy looks incomplete ($DEST has no executable). Please report this to arbonomous@proton.me."
 
-step "Clearing the macOS quarantine flag (unsigned beta)"
-xattr -dr com.apple.quarantine "$DEST" 2>/dev/null || true
-if xattr "$DEST" 2>/dev/null | grep -q 'com.apple.quarantine'; then
-  fail "Could not clear the quarantine flag. Run: sudo xattr -dr com.apple.quarantine $DEST"
+step "Checking the macOS quarantine flag (unsigned beta)"
+# macOS 26's xattr can reject the old recursive -r flag. The app bundle root
+# is the installer's first-run Gatekeeper check; never ignore a failed clear.
+if xattr -p com.apple.quarantine "$DEST" >/dev/null 2>&1; then
+  xattr -d com.apple.quarantine "$DEST" || true
+  if xattr -p com.apple.quarantine "$DEST" >/dev/null 2>&1; then
+    fail "The installed app is still quarantined. Open SidePiece from Applications, then in System Settings > Privacy & Security click Open Anyway. Installation is complete, but the one-line launch could not clear this macOS security prompt."
+  fi
 fi
 
 step "Checking for duplicate copies"
